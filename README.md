@@ -1,4 +1,4 @@
-# 🚀 Fleetify Attendance System - Backend (CodeIgniter 4)
+# Fleetify Attendance System - Backend (CodeIgniter 4)
 
 ---
 A simple attendance system to manage **employees and departments**, record **clock-in** and **clock-out** attendance, and display **employee attendance logs** with punctuality status based on the maximum hours for each department.
@@ -9,7 +9,7 @@ A simple attendance system to manage **employees and departments**, record **clo
 
 ---
 
-## ⚙️ Feature
+## Feature
 ✅ CRUD **Department**  
 ✅ CRUD **Employee**  
 ✅ POST **Clock In** (Attendance)  
@@ -18,7 +18,7 @@ A simple attendance system to manage **employees and departments**, record **clo
  
 ---
 
-## 📁 Structure
+## Structure
 app/
 ├── Controllers/
 │   ├── DepartmentController.php
@@ -37,14 +37,14 @@ app/
 │       ├── DepartmentSeeder.php
 │       └── EmployeeSeeder.php
 
-## 🧩 Instalasi & Setup
-### 1️⃣ Clone & Install
+## Instalasi & Setup
+### 1️. Clone & Install
 ```bash
 git clone https://github.com/<username>/fleetify-attendance-backend.git
 cd fleetify-attendance-backend
 composer install
 ````
-### 2️⃣ Configuration `.env`
+### 2️. Configuration `.env`
 Copy the `.env.example` file and edit it according to your local database:
 cp env .env
 Isi:
@@ -55,17 +55,17 @@ database.default.username = root
 database.default.password = 
 database.default.DBDriver = MySQLi
 ```
-### 3️⃣ Buat Database
+### 3. Buat Database
 ```sql
 CREATE DATABASE fleetify_db;
 ```
-### 4️⃣ Jalankan Migration & Seeder
+### 4️. Jalankan Migration & Seeder
 ```bash
 php spark migrate
 php spark db:seed DepartmentSeeder
 php spark db:seed EmployeeSeeder
 ```
-### 5️⃣ Jalankan Server
+### 5️. Jalankan Server
 ```bash
 php spark serve
 ```
@@ -76,7 +76,7 @@ http://localhost:8080/
 
 ---
 
-## 🌐 API Documentation
+## API Documentation
 
 Base URL:
 
@@ -88,8 +88,8 @@ Use `Content-Type: application/json` for POST/PUT.
 
 ---
 
-### 🏢 Departments
-#### 📍 GET `/departments`
+### Departments
+#### GET `/departments`
 List all departments.
 **Response:**
 
@@ -110,7 +110,7 @@ List all departments.
 ]
 ```
 
-#### 📍 POST `/departments`
+#### POST `/departments`
 **Request:**
 
 ```json
@@ -133,7 +133,7 @@ List all departments.
 }
 ```
 
-#### 📍 PUT `/departments/{id}`
+#### PUT `/departments/{id}`
 **Request:**
 
 ```json
@@ -144,12 +144,12 @@ List all departments.
 }
 ```
 
-#### 📍 DELETE `/departments/{id}`
+#### DELETE `/departments/{id}`
 ---
 
-### 👩‍💼 Employees
+### Employees
 
-#### 📍 GET `/employees`
+#### GET `/employees`
 
 **Response:**
 
@@ -164,7 +164,7 @@ List all departments.
 ]
 ```
 
-#### 📍 POST `/employees`
+#### POST `/employees`
 **Request:**
 
 ```json
@@ -178,9 +178,9 @@ List all departments.
 
 ---
 
-### 🕒 Attendance
+### Attendance
 
-#### 📍 POST `/attendance/clock-in`
+#### POST `/attendance/clock-in`
 
 **Request:**
 
@@ -202,7 +202,7 @@ List all departments.
 
 ---
 
-#### 📍 PUT `/attendance/clock-out/{attendance_uid}`
+#### PUT `/attendance/clock-out/{attendance_uid}`
 Record attendance based on `attendance_uid`.
 
 **Response:**
@@ -216,7 +216,7 @@ Record attendance based on `attendance_uid`.
 
 ---
 
-#### 📍 GET `/attendance/list?date=2025-10-05&department_id=1`
+#### GET `/attendance/list?date=2025-10-05&department_id=1`
 Display attendance list (optional filter by date & department).
 **Response:**
 
@@ -245,12 +245,10 @@ Display attendance list (optional filter by date & department).
  © 2025 Developed by **Jose Enrico Markus Napitupulu**
 
 ---
-## 📧 Contact
+## Contact
 
 📨 Email: [joseenriconapitupulu@gmail.com](mailto:joseenriconapitupulu@gmail.com)
 📱 WhatsApp: +62 812-8406-1723
 🌐 GitHub: [github.com/<username>](https://github.com/)
 
 ---
-Atau mau sekalian saya bantu bikin versi **Postman Collection (JSON)** yang bisa kamu kirim bersama email?
-```

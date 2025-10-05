@@ -1,68 +1,256 @@
-# CodeIgniter 4 Application Starter
+# 🚀 Fleetify Attendance System - Backend (CodeIgniter 4)
 
-## What is CodeIgniter?
+---
+A simple attendance system to manage **employees and departments**, record **clock-in** and **clock-out** attendance, and display **employee attendance logs** with punctuality status based on the maximum hours for each department.
+- **Backend:** PHP 8 + CodeIgniter 4  
+- **Database:** MySQL  
+- **Frontend (terpisah):** CodeIgniter (UI)
+- **Arsitektur:** RESTful API  
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## ⚙️ Feature
+✅ CRUD **Department**  
+✅ CRUD **Employee**  
+✅ POST **Clock In** (Attendance)  
+✅ PUT **Clock Out** (Clock Out)  
+✅ GET **Attendance Records** (with `date` & `department_id` filters)   
+ 
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## 📁 Structure
+app/
+├── Controllers/
+│   ├── DepartmentController.php
+│   ├── EmployeeController.php
+│   └── AttendanceController.php
+├── Models/
+│   ├── DepartmentModel.php
+│   ├── EmployeeModel.php
+│   └── AttendanceModel.php
+├── Database/
+│   ├── Migrations/
+│   │   ├── 2025-10-01-000001_CreateDepartmentsTable.php
+│   │   ├── 2025-10-01-000002_CreateEmployeesTable.php
+│   │   └── 2025-10-01-000003_CreateAttendancesTable.php
+│   └── Seeds/
+│       ├── DepartmentSeeder.php
+│       └── EmployeeSeeder.php
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## 🧩 Instalasi & Setup
+### 1️⃣ Clone & Install
+```bash
+git clone https://github.com/<username>/fleetify-attendance-backend.git
+cd fleetify-attendance-backend
+composer install
+````
+### 2️⃣ Configuration `.env`
+Copy the `.env.example` file and edit it according to your local database:
+cp env .env
+Isi:
+app.baseURL = 'http://localhost:8080/'
+database.default.hostname = host_name
+database.default.database = fleetify_db
+database.default.username = root
+database.default.password = 
+database.default.DBDriver = MySQLi
+```
+### 3️⃣ Buat Database
+```sql
+CREATE DATABASE fleetify_db;
+```
+### 4️⃣ Jalankan Migration & Seeder
+```bash
+php spark migrate
+php spark db:seed DepartmentSeeder
+php spark db:seed EmployeeSeeder
+```
+### 5️⃣ Jalankan Server
+```bash
+php spark serve
+```
+Akses:
+```
+http://localhost:8080/
+```
 
-## Installation & updates
+---
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## 🌐 API Documentation
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Base URL:
 
-## Setup
+```
+http://localhost:8080/
+```
+All responses are in JSON format.
+Use `Content-Type: application/json` for POST/PUT.
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+---
 
-## Important Change with index.php
+### 🏢 Departments
+#### 📍 GET `/departments`
+List all departments.
+**Response:**
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```json
+[
+  {
+    "id": 1,
+    "department_name": "IT",
+    "max_clock_in_time": "09:00:00",
+    "max_clock_out_time": "17:00:00"
+  },
+  {
+    "id": 2,
+    "department_name": "HR",
+    "max_clock_in_time": "08:30:00",
+    "max_clock_out_time": "16:30:00"
+  }
+]
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+#### 📍 POST `/departments`
+**Request:**
 
-**Please** read the user guide for a better explanation of how CI4 works!
+```json
+{
+  "department_name": "Finance",
+  "max_clock_in_time": "09:00:00",
+  "max_clock_out_time": "17:00:00"
+}
+```
 
-## Repository Management
+**Response:**
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 3,
+    "department_name": "Finance"
+  }
+}
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+#### 📍 PUT `/departments/{id}`
+**Request:**
 
-## Server Requirements
+```json
+{
+  "department_name": "IT Support",
+  "max_clock_in_time": "09:15:00",
+  "max_clock_out_time": "17:15:00"
+}
+```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+#### 📍 DELETE `/departments/{id}`
+---
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 👩‍💼 Employees
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+#### 📍 GET `/employees`
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+**Response:**
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+```json
+[
+  {
+    "id": 1,
+    "employee_id": "EMP001",
+    "name": "Jose Enrico",
+    "department_name": "IT"
+  }
+]
+```
+
+#### 📍 POST `/employees`
+**Request:**
+
+```json
+{
+  "employee_id": "EMP002",
+  "name": "Anita",
+  "department_id": 2,
+  "address": "Jakarta"
+}
+```
+
+---
+
+### 🕒 Attendance
+
+#### 📍 POST `/attendance/clock-in`
+
+**Request:**
+
+```json
+{
+  "employee_id": "EMP001"
+}
+```
+
+**Response:**
+
+```json
+{
+  "status": "success",
+  "attendance_uid": "ATT-20251005-EMP001",
+  "in_status": "On Time"
+}
+```
+
+---
+
+#### 📍 PUT `/attendance/clock-out/{attendance_uid}`
+Record attendance based on `attendance_uid`.
+
+**Response:**
+
+```json
+{
+  "status": "success",
+  "out_status": "On Time"
+}
+```
+
+---
+
+#### 📍 GET `/attendance/list?date=2025-10-05&department_id=1`
+Display attendance list (optional filter by date & department).
+**Response:**
+
+```json
+[
+  {
+    "employee_id": "EMP001",
+    "employee_name": "Jose Enrico",
+    "department_name": "IT",
+    "clock_in": "2025-10-05 08:55:00",
+    "clock_out": "2025-10-05 17:10:00",
+    "in_status": "On Time",
+    "out_status": "On Time"
+  },
+  {
+    "employee_id": "EMP002",
+    "employee_name": "Anita",
+    "department_name": "HR",
+    "clock_in": "2025-10-05 08:45:00",
+    "clock_out": "2025-10-05 16:00:00",
+    "in_status": "On Time",
+    "out_status": "Early Leave"
+  }
+]
+```
+ © 2025 Developed by **Jose Enrico Markus Napitupulu**
+
+---
+## 📧 Contact
+
+📨 Email: [joseenriconapitupulu@gmail.com](mailto:joseenriconapitupulu@gmail.com)
+📱 WhatsApp: +62 812-8406-1723
+🌐 GitHub: [github.com/<username>](https://github.com/)
+
+---
+Atau mau sekalian saya bantu bikin versi **Postman Collection (JSON)** yang bisa kamu kirim bersama email?
+```
